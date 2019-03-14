@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar color=dark>
+    <ion-title>favorites-list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding color=dark class="card-background-page">
+
+  <ion-grid color=dark>
+    <ion-row *ngIf="movies.length != 0 || !loaded">
+        <ion-label>Movies</ion-label>
+    </ion-row>
+    <ion-row>     
+      <ng-container *ngIf="(!movies || movies.length == 0 && !loaded) || !loaded" >
+          <ion-col *ngFor="let n of [0,1,2]" padding >   
+            <ion-card lines="inset" color=danger>
+              <ion-card-content>
+                <ion-label>    
+                  <p><ion-skeleton-text ></ion-skeleton-text></p>
+                </ion-label>
+                <ion-note slot="end" color="dark">
+                  <ion-skeleton-text class="fake-skeleton"></ion-skeleton-text>
+                </ion-note>
+              </ion-card-content>
+            </ion-card>  
+          </ion-col>
+      </ng-container>
+      
+      <ng-container>
+        <ion-col *ngFor="let item of movies" col-6>
+
+          <ion-card lines="inset" button [routerLink]="['/item-info', item.imdbID]" color=danger>
+            <img src="{{item.Poster}}" 
+              alt="" style='width:210px; height:297px;'>
+            <div>
+              <div class="card-title">
+                <ion-label>
+                  <p>{{ item.Title }}</p>
+                </ion-label>
+              </div>
+              <div class="card-subtitle">
+                <ion-note slot="end">{{ item.Genre }}</ion-note>
+              </div>
+            </div>
+          </ion-card>   
+    
+        </ion-col>
+      </ng-container>
+    
+    </ion-row>
+    <ion-row *ngIf="tvshows.length != 0 || !loaded">
+      <ion-label>Tv shows</ion-label>
+    </ion-row>
+    <ion-row>
+      
+      <ng-container *ngIf="(!tvshows || tvshows.length == 0 && !loaded) || !loaded" >
+          <ion-col *ngFor="let n of [0,1,2]" padding >   
+            <ion-card lines="inset" color=danger>
+              <ion-card-content>
+                <ion-label>      
+                  <ion-skeleton-text ></ion-skeleton-text>            
+                  <p><ion-skeleton-text ></ion-skeleton-text></p>
+                </ion-label>
+                <ion-note slot="end" color="dark">
+                  <ion-skeleton-text class="fake-skeleton"></ion-skeleton-text>
+                </ion-note>
+              </ion-card-content>
+            </ion-card>  
+          </ion-col>
+      </ng-container>
+
+      <ion-col *ngFor="let item of tvshows">
+          
+          <ion-card lines="inset" button [routerLink]="['/item-info', item.imdbID]" color=danger>
+            <img src="{{item.Poster}}" 
+              alt="" style='width:210px; height:297px;'>
+            <div>
+              <div class="card-title">
+                <ion-label>
+                  <p>{{ item.Title }}</p>
+                </ion-label>
+              </div>
+              <div class="card-subtitle">
+                <ion-note slot="end">{{ item.Genre }}</ion-note>
+              </div>
+            </div>
+          </ion-card>  
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
