@@ -1,6 +1,6 @@
-import { FavoritesService } from './../../services/favorites/favorites.service';
+
 import { LoadingController, IonContent } from '@ionic/angular';
-import { ItemService } from './../../services/item/item.service';
+import { ItemService, Item } from './../../services/item/item.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OmdbService } from './../../services/omdb/omdb.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -30,12 +30,10 @@ export class ItemInfoPage implements OnInit {
     public OMdbProvider: OmdbService,
     public router: Router,
     public extrasService: ExtrasService,
-    private storage: Storage,
     private route: ActivatedRoute,
     private itemService: ItemService,
     private loadingController: LoadingController,
-    private sanitizer: DomSanitizer,
-    public favoritesService: FavoritesService
+    private sanitizer: DomSanitizer
   ) {
     this.itemInfo = new Observable<any>();
     //this.poster = new Observable<any>();
@@ -53,7 +51,7 @@ export class ItemInfoPage implements OnInit {
     console.log(this.itemInfo)
   }
 
-  // downloadPoster() {
+   downloadPoster() {
 
   //   window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, (fs) => {
   //     fs.root.getDirectory("poster", {create: true, exclusive: false}, (dirEntry) => {
@@ -69,12 +67,12 @@ export class ItemInfoPage implements OnInit {
   //   }, this.onErrorLoadFs);
   
 
-  // }
+   }
   // onErrorCreateFile(error: FileError){}
   // onErrorLoadDir(error: FileError){}
   // onErrorLoadFs(error: FileError){}
 
-  // writeFile(fileEntry, dataObj, isAppend) {
+   writeFile(fileEntry, dataObj, isAppend) {
   //   console.log(dataObj)
   //   // Create a FileWriter object for our FileEntry (log.txt).
   //   fileEntry.createWriter(function (fileWriter) {
@@ -89,12 +87,16 @@ export class ItemInfoPage implements OnInit {
 
   //       fileWriter.write(dataObj);
   //   });
-  // }
+   }
 
 
 
   async loadInfo() {
-    await this.getPosterHD()
+    try {
+      await this.getPosterHD()
+    } catch {
+      this.moviePosterHD = "assets/imgs/default_poster.png";
+    }
     this.itemInfo = await this.OMdbProvider.getInfoById(this.passedId);
     console.log(this.itemInfo.Type , this.CONST_SERIE)
     this.itemInfo.Actors = this.itemInfo.Actors.split(',')
@@ -108,10 +110,6 @@ export class ItemInfoPage implements OnInit {
       }
      
     }
-    //check internet
-    this.favoritesService.isFavorite(this.passedId).then(isFav => {
-      this.inFav = isFav;
-    });
     this.loadItem();
   }
 
@@ -146,18 +144,6 @@ export class ItemInfoPage implements OnInit {
     this.router.navigate(['/item-info/' + episode.imdbID]);
   }
 
-  favoriteMedia() {
-    this.favoritesService.favoriteMedia(this.passedId).then(() => {
-      this.inFav = true
-    })
-  }
-
-  unfavoriteMedia(){
-    this.favoritesService.favoriteMedia(this.passedId).then(() => {
-      this.inFav = false
-    })
-  }
-
   async loadItem(){
     const loading = await this.loadingController.create({
       message: 'Loading Todo..'
@@ -182,6 +168,12 @@ export class ItemInfoPage implements OnInit {
     });
     await loading.present();
  
+    let myItem = {
+      'imdbID' : this.passedId,
+      'Title' : this.itemInfo.Title,
+      'Type' : this.itemInfo.Type,
+      'Date' : this.itemInfo.Date || this.itemInfo.Released
+    }
     if (this.inFav) {
       this.itemService.removeItem(this.passedId).then(() => {
         loading.dismiss();
@@ -189,7 +181,7 @@ export class ItemInfoPage implements OnInit {
         //this.nav.goBack('home');
       });
     } else {
-      this.itemService.addItem(this.itemInfo).then(() => {
+      this.itemService.addItem(myItem).then(() => {
         loading.dismiss();
         this.inFav = true;
         //this.nav.goBack('home');

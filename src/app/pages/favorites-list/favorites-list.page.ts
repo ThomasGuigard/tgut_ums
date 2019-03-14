@@ -1,3 +1,4 @@
+
 import { Item, ItemService } from './../../services/item/item.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -21,6 +22,9 @@ export class FavoritesListPage implements OnInit {
       this.tvshows = [];
       res.forEach(function(value, key) {
         console.log(value);
+        // sync data if online to get poster
+
+
         if(value.Type == "movie"){
           that.movies.push(value);
         } else {
@@ -33,6 +37,23 @@ export class FavoritesListPage implements OnInit {
 
   remove(item){
     this.itemService.removeItem(item.imdId);
+  }
+
+  saveAsCsv() {
+
+  }
+
+  
+  share(){
+    
+  }
+  
+  export() {
+    
+  }
+
+  import() {
+
   }
 
 }

@@ -7,8 +7,7 @@ export interface Item {
   imdbID?: string;
   Title: string;
   Type: string;
-  Genre: string;
-  Poster: string;
+  Date: string;
 }
 
 @Injectable({
