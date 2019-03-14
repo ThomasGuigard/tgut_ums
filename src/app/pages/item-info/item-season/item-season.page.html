@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button></ion-back-button>
+    <ion-title>item-season</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid>
+        <ion-row *ngFor="let episode of season.Episodes" >
+          <ion-col (click)="episodeTapped($event, episode)" >{{episode.Title}} </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
