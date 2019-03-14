@@ -1,6 +1,8 @@
 {
   "name": "tgut_v4",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "ba899673"
 }

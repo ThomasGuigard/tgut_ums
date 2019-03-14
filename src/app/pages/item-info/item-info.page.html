@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar  color=dark>
+    <ion-back-button></ion-back-button>
+    <ion-title>{{itemInfo.Type}} details</ion-title>
+    <ion-icon name="{{inFav}}" (click)="saveItem()" color=warning></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding  color=dark #itemContent>
+  
+  
+
+  
+  <ion-card>
+    <img [src]=moviePosterHD>
+  </ion-card>
+  
+  <button ion-button color="dark" (click)="downloadPoster()" >Download poster</button>
+
+  <h1>{{itemInfo.Title}}</h1>
+
+  <!-- {{poster | async}} -->
+  <h2>
+    Produced by {{itemInfo.Director}}
+  </h2>
+
+  <p>{{itemInfo.Plot}}</p>
+  
+  <ion-grid spaceBetween="4">
+    <ion-row class="actors">
+      <div>
+          <ion-col *ngFor="let actor of itemInfo.Actors">
+   
+              <ion-card>
+                <ion-card-content>{{actor}}</ion-card-content>
+              </ion-card>
+      
+            
+            </ion-col>
+            <ion-col *ngFor="let actor of itemInfo.Actors">
+         
+              <ion-card>
+                <ion-card-content>{{actor}}</ion-card-content>
+              </ion-card>
+              
+            
+            </ion-col>
+            <ion-col *ngFor="let actor of itemInfo.Actors">
+         
+              <ion-card>
+                <ion-card-content>{{actor}}</ion-card-content>
+              </ion-card>
+              
+            
+            </ion-col>
+      </div>
+      
+    </ion-row>
+  </ion-grid>   
+  
+
+  <ion-badge margin  color=danger>{{itemInfo.Released}}</ion-badge>
+  <ion-badge margin  color=danger>{{itemInfo.Runtime}}</ion-badge>
+  <ion-badge margin  color=danger>{{itemInfo.Rated}}</ion-badge>
+
+  <div>
+      <ion-badge *ngFor="let genre of itemInfo.Genre" margin color=danger>
+        {{genre}}
+      </ion-badge>
+  </div>
+
+  <!-- <p  *<ng>If="itemInfo.Awards != 'N/A'">{{itemInfo.Awards | async}}</p> -->
+  <p>{{itemInfo.imdbRating}} <ion-badge>{{itemInfo.imdbVotes}} votes</ion-badge></p>
+  <!-- <p *ngIf="itemInfo.Website != 'N/A'"><a href="{{itemInfo.Website | async}}" target="_blank">{{itemInfo.Website | async}}</a></p> -->
+
+
+  <div *ngIf="itemInfo.Type == CONST_SERIE" >
+    <ion-label>
+      Seasons
+    </ion-label>
+    <ion-grid>
+      <ion-row *ngFor="let season of seasons">
+          <ion-col>
+              <ion-label (click)="showEpisodes($event, season)">Season {{season.Season}}</ion-label>
+              <ion-list class="hidden">
+                <ion-item *ngFor="let episode of season.Episodes" color=dark>
+                    <ion-label  (click)="episodeTapped($event, episode)">
+                        {{episode.Title}}
+                    </ion-label>
+                    <ion-label>
+                      {{episode.Released}}
+                    </ion-label>
+                    <ion-badge>{{episode.imdbRating}}</ion-badge>
+                </ion-item>
+               
+              </ion-list>
+          </ion-col>
+      </ion-row>
+      
+   
+    </ion-grid>
+  </div>
+
+
+</ion-content>
+

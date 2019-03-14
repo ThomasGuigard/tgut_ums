@@ -8,42 +8,44 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'movies-list',
         children: [
           {
             path: '',
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
+            loadChildren: '../pages/movies-list/movies-list.module#MoviesListPageModule',
+            
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'tvshows-list',
         children: [
           {
             path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
+            loadChildren: '../pages/tvshows-list/tvshows-list.module#TvshowsListPageModule',
+
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'favorites-list',
         children: [
           {
             path: '',
-            loadChildren: '../tab3/tab3.module#Tab3PageModule'
+            loadChildren: '../pages/favorites-list/favorites-list.module#FavoritesListPageModule'
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/movies-list',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/movies-list',
     pathMatch: 'full'
   }
 ];

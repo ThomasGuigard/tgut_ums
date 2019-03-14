@@ -1,3 +1,4 @@
+import { ExtrasService } from 'src/app/services/extras/extras.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -5,4 +6,12 @@ import { Component } from '@angular/core';
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {}
+export class TabsPage {
+
+  constructor(private extrasService: ExtrasService){}
+
+  updateTab(idTab: number){
+    this.extrasService.setActiveTab(idTab);
+  }
+
+}

@@ -1,0 +1,75 @@
+
+
+ion-icon {
+    color: #424242;
+}
+
+ion-card {
+    background-color: #424242;
+    color: white;
+    
+}
+
+
+div.scroll-item[scrollx=true] {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+  
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  div.scroll-item[scrollx=true] {
+    overflow-x: auto;
+  }     
+
+    
+
+ion-row.actors {
+  div{
+    display: flex;
+    overflow-x: scroll;
+  }
+
+  white-space: nowrap;
+
+ 
+}
+
+.active {
+  display: block !important;
+  background-color: #222428;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+.hidden {
+  display: none; 
+}
+
+.modal .scroll {
+  height: 100% !important;
+  background-color: black !important;
+  
+  display: -webkit-box !important;
+  display: -moz-box !important;
+  display: -ms-flexbox !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  
+  -webkit-box-direction: normal !important;
+  -moz-box-direction: normal !important;
+  -webkit-box-orient: horizontal !important;
+  -moz-box-orient: horizontal !important;
+  -webkit-flex-direction: row !important;
+  -ms-flex-direction: row !important;
+  flex-direction: row !important;
+  
+  
+  -webkit-box-align: center !important;
+  -moz-box-align: center !important;
+  -webkit-align-items: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+}

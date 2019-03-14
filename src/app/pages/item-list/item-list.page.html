@@ -1,0 +1,54 @@
+<ion-header color=dark>
+  <ion-toolbar color=dark>
+    <ion-title>
+      <ion-grid>
+        <ion-row size="10">
+          <ion-col size="9">
+              <ion-searchbar (ionInput)="searchByTitle($event)" class="dismiss"  *ngIf="displaySrcBar"></ion-searchbar>
+          </ion-col>
+          <ion-col size="1">
+              <ion-icon name="search" (click)="switch($event, true)" *ngIf="!displaySrcBar" color=light></ion-icon>
+              <ion-icon name="close" (click)="switch($event, false)"  *ngIf="displaySrcBar" color=light></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="card-background-page" color=dark>
+  <!-- <ion-list> (click)="itemTapped($event, item)" -->
+    <ion-grid>
+      <ion-row>
+        <ion-col ion-item *ngFor="let item of items" 
+        item-width="33%"        
+        button [routerLink]="['/item-info', item.imdbID]"
+        col-6>
+          <ion-card>
+            <img src="{{item.Poster}}" 
+              alt="" style='width:210px; height:297px;'>
+
+            <!-- <img ion-img name="poster_{{movie.imdbID}}" src="{{movie.Poster}}" width="210" height="297"/> -->
+            <div class="card-title">
+              <p>{{item.Title}}</p>
+            </div>
+            <div class="card-subtitle">
+              <ion-label>{{item.Year}}</ion-label>
+            </div>
+          </ion-card>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" #infiniteScroll>
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </ion-row>
+  </ion-grid>
+  
+
+  <!-- </ion-list> -->
+</ion-content>
+
