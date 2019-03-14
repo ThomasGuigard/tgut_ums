@@ -1,3 +1,4 @@
+import { FavoritesService } from './../../services/favorites/favorites.service';
 import { LoadingController, IonContent } from '@ionic/angular';
 import { ItemService } from './../../services/item/item.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,7 +18,7 @@ export class ItemInfoPage implements OnInit {
   @ViewChild('itemContent') itemContent: any;
   itemInfo: any;
   passedId: string;
-  inFav: string = "star-outline";
+  inFav: boolean = false;
   moviePosterHD: SafeUrl;
   CONST_SERIE:string = "series";
   posterBlob:Blob;
@@ -33,7 +34,8 @@ export class ItemInfoPage implements OnInit {
     private route: ActivatedRoute,
     private itemService: ItemService,
     private loadingController: LoadingController,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public favoritesService: FavoritesService
   ) {
     this.itemInfo = new Observable<any>();
     //this.poster = new Observable<any>();
@@ -107,7 +109,9 @@ export class ItemInfoPage implements OnInit {
      
     }
     //check internet
-    this.isInFav();
+    this.favoritesService.isFavorite(this.passedId).then(isFav => {
+      this.inFav = isFav;
+    });
     this.loadItem();
   }
 
@@ -142,6 +146,18 @@ export class ItemInfoPage implements OnInit {
     this.router.navigate(['/item-info/' + episode.imdbID]);
   }
 
+  favoriteMedia() {
+    this.favoritesService.favoriteMedia(this.passedId).then(() => {
+      this.inFav = true
+    })
+  }
+
+  unfavoriteMedia(){
+    this.favoritesService.favoriteMedia(this.passedId).then(() => {
+      this.inFav = false
+    })
+  }
+
   async loadItem(){
     const loading = await this.loadingController.create({
       message: 'Loading Todo..'
@@ -151,25 +167,13 @@ export class ItemInfoPage implements OnInit {
     this.itemService.getItem(this.passedId).subscribe(res => {
       loading.dismiss();
       if(res){        
-        this.inFav = "star";
+        this.inFav = true;
       }else {
-        this.inFav = "star-outline";
+        this.inFav = false;
       }
       
       console.log("result from firebase", res);
     });
-  }
-
-  isInFav(){
-    this.storage.get(this.passedId).then((item) => {
-      if(item){
-        //update item for offline
-        this.storage.set(this.passedId,JSON.stringify(this.itemInfo));
-        this.inFav = "star";
-      } else {
-        this.inFav = "star-outline";
-      }
-    })
   }
 
   async saveItem(){
@@ -178,38 +182,20 @@ export class ItemInfoPage implements OnInit {
     });
     await loading.present();
  
-    if (this.inFav == "star") {
+    if (this.inFav) {
       this.itemService.removeItem(this.passedId).then(() => {
         loading.dismiss();
-        this.inFav = "star-outline";
+        this.inFav = false;
         //this.nav.goBack('home');
       });
     } else {
       this.itemService.addItem(this.itemInfo).then(() => {
         loading.dismiss();
-        this.inFav = "star";
+        this.inFav = true;
         //this.nav.goBack('home');
       });
     }
   }
 
-  addOrRemoveFav(ev: any){
-    //check status
-    this.storage.get(this.passedId).then((item) => {
-      console.log(item);
-      if(item){
-        // 
-        this.storage.remove(this.passedId);
-        console.log(item);
-        this.inFav = "star-outline";
-      }else {
-        // add
-        this.storage.set(this.passedId,JSON.stringify(this.itemInfo));
-        this.inFav = "star";
-      }
-   
-    }).catch((error) => {
-      console.log(error);
-    });    
-  }
+  
 }

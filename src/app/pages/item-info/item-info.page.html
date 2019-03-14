@@ -2,7 +2,9 @@
   <ion-toolbar  color=dark>
     <ion-back-button></ion-back-button>
     <ion-title>{{itemInfo.Type}} details</ion-title>
-    <ion-icon name="{{inFav}}" (click)="saveItem()" color=warning></ion-icon>
+    <button ion-button icon-only (click)="unfavoriteMedia()" *ngIf="inFav"><ion-icon name="star"></ion-icon></button>
+    <button ion-button icon-only (click)="favoriteMedia()" *ngIf="!inFav"><ion-icon name="star-outline"></ion-icon></button>
+    <!-- <ion-icon name="{{inFav}}" (click)="saveItem()" color=warning></ion-icon> -->
   </ion-toolbar>
 </ion-header>
 
