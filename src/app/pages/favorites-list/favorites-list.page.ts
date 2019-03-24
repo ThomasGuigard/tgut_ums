@@ -29,8 +29,6 @@ export class FavoritesListPage implements OnInit {
       this.tvshows = [];
       this.allFavs = res;
       res.forEach(function(value, key) {
-        console.log(value);
-        // sync data if online to get poster
         if(value.Type == "movie"){
           that.movies.push(value);
         } else {
@@ -47,21 +45,15 @@ export class FavoritesListPage implements OnInit {
 
   saveAsCsv() {
     let csvArray: Item[];
-    console.log(this.allFavs)
     csvArray = this.allFavs.map((item) => {
       return {imdbID : item["imdbID"], Title : item["Title"],  Date : item["Date"], Type: item["Type"]}
     });
-    console.log(csvArray)
 
     let array = typeof csvArray != 'object' ? JSON.parse(csvArray) : csvArray;
     let str = '';
     let row = "imdbID,Title,Date,Type,"; 
-    // for (let index in array[0]) {
-    //     //Now convert each value to string and comma-separated
-    //     row += index + ',';
-    // }
+
     row = row.slice(0, -1);
-    //append Label row with line break
     str += row + '\r\n';
 
     for (let i = 0; i < array.length; i++) {
@@ -72,8 +64,6 @@ export class FavoritesListPage implements OnInit {
         }
         str += line + '\r\n';
     }
-    console.log(str)
-    
     return str
   }
 

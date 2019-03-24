@@ -11,6 +11,16 @@ ion-card {
 }
 
 
+
+.favBtn {
+
+  background-color: #424242;
+
+  ion-icon{
+    color : yellow;
+  }
+}
+
 div.scroll-item[scrollx=true] {
     position: relative;
     overflow: hidden;

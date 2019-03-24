@@ -16,7 +16,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
   styleUrls: ['./item-info.page.scss'],
 })
 export class ItemInfoPage implements OnInit {
-  @ViewChild('itemContent') itemContent: any;
+  // @ViewChild('itemContent') itemContent: any;
   itemInfo: any;
   passedId: string;
   inFav: boolean = false;
@@ -39,19 +39,13 @@ export class ItemInfoPage implements OnInit {
     private platform: Platform
   ) {
     this.itemInfo = new Observable<any>();
-    //this.poster = new Observable<any>();
-    // let routeParams = this.router.url.split('/')
-    // this.passedId = routeParams[routeParams.length-1].trim()
-    // console.log(this.passedId)
+  
     this.passedId = this.route.snapshot.params['id'];
-    console.log(this.itemContent)
-
-    
+       
   }
 
   ngOnInit() {
     this.loadInfo();
-    console.log(this.itemInfo)
   }
 
    async downloadPoster() {
@@ -72,8 +66,6 @@ export class ItemInfoPage implements OnInit {
     var fs  = await this.file.resolveDirectoryUrl(storageLocation) 
     var umsDir = await this.file.getDirectory(fs, "/ums", {create: true, exclusive: false})
     var dirEntry = await this.file.getDirectory(umsDir, "/posters", {create: true, exclusive: false})
-    console.log('file system open: ', dirEntry);
-    alert(dirEntry.fullPath)
     this.file.writeFile(dirEntry.nativeURL, this.passedId + '.png', this.posterBlob,  {replace: true}) 
 
   }
@@ -86,7 +78,6 @@ export class ItemInfoPage implements OnInit {
       this.moviePosterHD = "assets/imgs/default_poster.png";
     }
     this.itemInfo = await this.OMdbProvider.getInfoById(this.passedId);
-    console.log(this.itemInfo.Type , this.CONST_SERIE)
     this.itemInfo.Actors = this.itemInfo.Actors.split(',')
     this.itemInfo.Genre = this.itemInfo.Genre.split(',')
     if(this.itemInfo.Type == this.CONST_SERIE){
@@ -108,23 +99,23 @@ export class ItemInfoPage implements OnInit {
   }
 
   showEpisodes(ev: any, season:any){
-    // this.extrasService.setExtras(season);
-    // this.router.navigate(['/item-info/' + this.passedId + '/' + season.Season]);
+    this.extrasService.setExtras(season);
+    this.router.navigate(['/item-info/' + this.passedId + '/' + season.Season]);
     //console.log();
-    ev.preventDefault();
+    // ev.preventDefault();
 
-    let alreadyDisplayed = false;
-    if(ev.target.nextElementSibling.className.indexOf("active") > -1){
-      alreadyDisplayed = true;
-    }
+    // let alreadyDisplayed = false;
+    // if(ev.target.nextElementSibling.className.indexOf("active") > -1){
+    //   alreadyDisplayed = true;
+    // }
 
-    ev.target.parentElement.parentElement.parentElement.querySelectorAll( ".active" ).forEach( e =>
-      e.classList.remove( "active" )
-    );
+    // ev.target.parentElement.parentElement.parentElement.querySelectorAll( ".active" ).forEach( e =>
+    //   e.classList.remove( "active" )
+    // );
 
-    if(!alreadyDisplayed) {
-      ev.target.nextElementSibling.classList.add( "active" );
-    }
+    // if(!alreadyDisplayed) {
+    //   ev.target.nextElementSibling.classList.add( "active" );
+    // }
   }
 
   
@@ -134,7 +125,7 @@ export class ItemInfoPage implements OnInit {
 
   async loadItem(){
     const loading = await this.loadingController.create({
-      message: 'Loading Todo..'
+      message: 'Chargement..'
     });
 
     await loading.present();
@@ -146,13 +137,12 @@ export class ItemInfoPage implements OnInit {
         this.inFav = false;
       }
       
-      console.log("result from firebase", res);
     });
   }
 
   async saveItem(){
     const loading = await this.loadingController.create({
-      message: 'Saving Todo..'
+      message: 'Mise en favoris..'
     });
     await loading.present();
  
@@ -166,13 +156,11 @@ export class ItemInfoPage implements OnInit {
       this.itemService.removeItem(this.passedId).then(() => {
         loading.dismiss();
         this.inFav = false;
-        //this.nav.goBack('home');
       });
     } else {
       this.itemService.addItem(myItem).then(() => {
         loading.dismiss();
         this.inFav = true;
-        //this.nav.goBack('home');
       });
     }
   }

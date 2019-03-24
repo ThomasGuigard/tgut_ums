@@ -3,8 +3,8 @@
     <ion-back-button left></ion-back-button>
     <ion-title middle>{{itemInfo.Type}} details</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="saveItem()" *ngIf="inFav" ><ion-icon name="star"></ion-icon></button>
-      <button ion-button icon-only (click)="saveItem()" *ngIf="!inFav" ><ion-icon name="star-outline"></ion-icon></button>
+      <button ion-button icon-only (click)="saveItem()" *ngIf="inFav" class=favBtn ><ion-icon name="star"></ion-icon></button>
+      <button ion-button icon-only (click)="saveItem()" *ngIf="!inFav" class=favBtn ><ion-icon name="star-outline"></ion-icon></button>
     </ion-buttons>
 
     <!-- <ion-icon name="{{inFav}}" (click)="saveItem()" color=warning></ion-icon> -->
@@ -20,7 +20,7 @@
     <img [src]=moviePosterHD>
   </ion-card>
   
-  <button ion-button color="dark" (click)="downloadPoster()" >Download poster</button>
+  <ion-button color="primary" (click)="downloadPoster()" expand="full" >Download poster</ion-button>
 
   <h1>{{itemInfo.Title}}</h1>
 
@@ -70,7 +70,7 @@
       <ion-row *ngFor="let season of seasons">
           <ion-col>
               <ion-label (click)="showEpisodes($event, season)">Season {{season.Season}}</ion-label>
-              <ion-list class="hidden">
+              <!-- <ion-list class="hidden">
                 <ion-item *ngFor="let episode of season.Episodes" color=dark>
                     <ion-label  (click)="episodeTapped($event, episode)">
                         {{episode.Title}}
@@ -81,7 +81,7 @@
                     <ion-badge>{{episode.imdbRating}}</ion-badge>
                 </ion-item>
                
-              </ion-list>
+              </ion-list> -->
           </ion-col>
       </ion-row>
       
