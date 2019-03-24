@@ -1,3 +1,5 @@
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthenticateService } from './services/authenticate/authenticate.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { NgModule } from '@angular/core';
@@ -10,10 +12,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,8 +27,10 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
+    AngularFireAuthModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [
     StatusBar,
@@ -35,7 +40,8 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
       useClass: IonicRouteStrategy
     },
     File,
-    SocialSharing
+    SocialSharing,
+    AuthenticateService
   ],
   bootstrap: [AppComponent]
 })
