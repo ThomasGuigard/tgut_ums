@@ -99,7 +99,7 @@ export class FavoritesListPage implements OnInit {
 
     var fs  = await this.file.resolveDirectoryUrl(storageLocation) 
     var umsDir = await this.file.getDirectory(fs, "/ums", {create: true, exclusive: false})
-    var dirEntry = await this.file.getDirectory(fs, "/export", {create: true, exclusive: false})
+    var dirEntry = await this.file.getDirectory(umsDir, "/export", {create: true, exclusive: false})
     this.file.writeFile(dirEntry.nativeURL, 'favoris.csv', csv,  {replace: true}) 
   }
 
