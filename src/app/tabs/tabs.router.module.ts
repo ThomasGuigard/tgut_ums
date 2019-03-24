@@ -37,17 +37,17 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'tabs',
-        redirectTo: '/tabs/movies-list',
+        path: '',
+        redirectTo: '/main/tabs/movies-list',
         pathMatch: 'full'
       }
     ]
   },
-  {
-    path: 'tabs',
-    redirectTo: '/tabs/movies-list',
-    pathMatch: 'full'
-  }
+  // {
+  //   path: 'main',
+  //   redirectTo: '/tabs/movies-list',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({

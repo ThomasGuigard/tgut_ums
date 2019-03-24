@@ -1,3 +1,4 @@
+import { AuthenticateService } from './../authenticate/authenticate.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
@@ -17,9 +18,15 @@ export class ItemService {
   private itemsCollection: AngularFirestoreCollection<Item>;
   private items: Observable<Item[]>;
 
-  constructor(db: AngularFirestore) {
-    this.itemsCollection = db.collection<Item>('items');
- 
+  constructor(public db: AngularFirestore,
+    ) {
+      this.updateCollection('items');
+
+  }
+
+  updateCollection(userEmail){
+    this.itemsCollection =  this.db.collection<Item>(userEmail);
+
     this.items = this.itemsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -29,7 +36,6 @@ export class ItemService {
         });
       })
     );
-
   }
 
   getItems() {
