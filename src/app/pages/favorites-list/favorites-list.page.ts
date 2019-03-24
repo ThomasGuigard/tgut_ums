@@ -11,6 +11,7 @@ export class FavoritesListPage implements OnInit {
 
   tvshows: Item[] = [];
   movies: Item[] = [];
+  allFavs: Item[] = []
   loaded: boolean = false;
 
   constructor(private itemService: ItemService) { }
@@ -20,11 +21,10 @@ export class FavoritesListPage implements OnInit {
       let that = this;
       this.movies = [];
       this.tvshows = [];
+      this.allFavs = res;
       res.forEach(function(value, key) {
         console.log(value);
         // sync data if online to get poster
-
-
         if(value.Type == "movie"){
           that.movies.push(value);
         } else {
@@ -40,6 +40,13 @@ export class FavoritesListPage implements OnInit {
   }
 
   saveAsCsv() {
+    let csvArray: Item[];
+    console.log(this.allFavs)
+    csvArray = this.allFavs.map((item) => {
+      return {imdbID : item["imdbID"], Title : item["Title"],  Date : item["Date"], Type: item["Type"]}
+    });
+    console.log(csvArray)
+
 
   }
 

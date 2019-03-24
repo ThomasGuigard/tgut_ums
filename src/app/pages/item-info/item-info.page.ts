@@ -53,40 +53,55 @@ export class ItemInfoPage implements OnInit {
 
    downloadPoster() {
 
-  //   window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, (fs) => {
-  //     fs.root.getDirectory("poster", {create: true, exclusive: false}, (dirEntry) => {
-  //       console.log('file system open: ' + fs);
-  //       dirEntry.getFile(this.passedId, { create: true, exclusive: false }, (fileEntry) => {
+    var storageLocation = "";
+    console.log(device.platform);
+    switch (device.platform) {  
+
+      case "Android":
+        storageLocation = 'file:///storage/emulated/0/';
+        break;
+      case "iOS":
+        storageLocation = cordova.file.documentsDirectory;
+        break;
+
+    }
+
+
+    window.resolveLocalFileSystemURL(storageLocation, (fs: DirectoryEntry) => {
+      fs.getDirectory("poster", {create: true, exclusive: false}, (dirEntry) => {
+        console.log('file system open: ' + fs);
+        dirEntry.getFile(this.passedId, { create: true, exclusive: false }, (fileEntry) => {
   
-  //         this.writeFile(fileEntry, this.posterBlob, false);
+          this.writeFile(fileEntry, this.posterBlob, false);
     
-  //       }, this.onErrorCreateFile);
-  //     }, this.onErrorLoadDir);
+        }, this.onErrorCreateFile);
+      }, this.onErrorLoadDir);
    
   
-  //   }, this.onErrorLoadFs);
+    }, this.onErrorLoadFs);
   
 
    }
-  // onErrorCreateFile(error: FileError){}
-  // onErrorLoadDir(error: FileError){}
-  // onErrorLoadFs(error: FileError){}
+
+  onErrorCreateFile(error: FileError){}
+  onErrorLoadDir(error: FileError){}
+  onErrorLoadFs(error: FileError){}
 
    writeFile(fileEntry, dataObj, isAppend) {
   //   console.log(dataObj)
-  //   // Create a FileWriter object for our FileEntry (log.txt).
-  //   fileEntry.createWriter(function (fileWriter) {
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fileEntry.createWriter(function (fileWriter) {
 
-  //       fileWriter.onwriteend = function() {
-  //           console.log("Successful file write...", dataObj);            
-  //       };
+        fileWriter.onwriteend = function() {
+            console.log("Successful file write...", dataObj);            
+        };
 
-  //       fileWriter.onerror = function(e) {
-  //           console.log("Failed file write: " + e.toString());
-  //       };
+        fileWriter.onerror = function(e) {
+            console.log("Failed file write: " + e.toString());
+        };
 
-  //       fileWriter.write(dataObj);
-  //   });
+        fileWriter.write(dataObj);
+    });
    }
 
 

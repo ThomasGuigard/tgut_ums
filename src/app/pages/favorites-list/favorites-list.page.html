@@ -93,9 +93,9 @@
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button color="light"><ion-icon name="arrow-dropleft"></ion-icon></ion-fab-button>
       <ion-fab-list side="start">
-        <ion-fab-button><ion-icon name="share"></ion-icon></ion-fab-button>
-        <ion-fab-button><ion-icon name="download"></ion-icon></ion-fab-button>
-        <ion-fab-button><ion-icon name="add"></ion-icon></ion-fab-button>
+        <ion-fab-button (click)="share()" ><ion-icon name="share"></ion-icon></ion-fab-button>
+        <ion-fab-button (click)="export()"><ion-icon name="download"></ion-icon></ion-fab-button>
+        <ion-fab-button (click)="import()"><ion-icon name="add"></ion-icon></ion-fab-button>
       </ion-fab-list>
     </ion-fab>
 
