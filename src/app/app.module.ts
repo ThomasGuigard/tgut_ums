@@ -1,3 +1,5 @@
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy, ActivatedRoute } from '@angular/router';
@@ -31,7 +33,9 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     { 
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
-    }
+    },
+    File,
+    SocialSharing
   ],
   bootstrap: [AppComponent]
 })

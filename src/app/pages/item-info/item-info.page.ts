@@ -6,7 +6,8 @@ import { OmdbService } from './../../services/omdb/omdb.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ExtrasService } from 'src/app/services/extras/extras.service';
-import { Storage } from '@ionic/storage';
+import { File } from '@ionic-native/file/ngx';
+import { Platform } from '@ionic/angular';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 
 @Component({
@@ -33,7 +34,9 @@ export class ItemInfoPage implements OnInit {
     private route: ActivatedRoute,
     private itemService: ItemService,
     private loadingController: LoadingController,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private file: File,
+    private platform: Platform
   ) {
     this.itemInfo = new Observable<any>();
     //this.poster = new Observable<any>();
@@ -51,59 +54,28 @@ export class ItemInfoPage implements OnInit {
     console.log(this.itemInfo)
   }
 
-   downloadPoster() {
-
+   async downloadPoster() {
+    await this.platform.ready();
     var storageLocation = "";
-    console.log(device.platform);
-    switch (device.platform) {  
+    console.log(this.platform.platforms, this.file.dataDirectory);
+    switch (cordova.platformId.toLowerCase()) {  
 
-      case "Android":
+      case "android":
         storageLocation = 'file:///storage/emulated/0/';
         break;
-      case "iOS":
-        storageLocation = cordova.file.documentsDirectory;
+      case "ios":
+        storageLocation = this.file.documentsDirectory;
         break;
 
     }
 
+    var fs  = await this.file.resolveDirectoryUrl(storageLocation) 
+    var dirEntry = await this.file.getDirectory(fs, "/ums/posters", {create: true, exclusive: false})
+    console.log('file system open: ', dirEntry);
+    alert(dirEntry.fullPath)
+    this.file.writeFile(dirEntry.nativeURL, this.passedId + '.png', this.posterBlob,  {replace: true}) 
 
-    window.resolveLocalFileSystemURL(storageLocation, (fs: DirectoryEntry) => {
-      fs.getDirectory("poster", {create: true, exclusive: false}, (dirEntry) => {
-        console.log('file system open: ' + fs);
-        dirEntry.getFile(this.passedId, { create: true, exclusive: false }, (fileEntry) => {
-  
-          this.writeFile(fileEntry, this.posterBlob, false);
-    
-        }, this.onErrorCreateFile);
-      }, this.onErrorLoadDir);
-   
-  
-    }, this.onErrorLoadFs);
-  
-
-   }
-
-  onErrorCreateFile(error: FileError){}
-  onErrorLoadDir(error: FileError){}
-  onErrorLoadFs(error: FileError){}
-
-   writeFile(fileEntry, dataObj, isAppend) {
-  //   console.log(dataObj)
-    // Create a FileWriter object for our FileEntry (log.txt).
-    fileEntry.createWriter(function (fileWriter) {
-
-        fileWriter.onwriteend = function() {
-            console.log("Successful file write...", dataObj);            
-        };
-
-        fileWriter.onerror = function(e) {
-            console.log("Failed file write: " + e.toString());
-        };
-
-        fileWriter.write(dataObj);
-    });
-   }
-
+  }
 
 
   async loadInfo() {
