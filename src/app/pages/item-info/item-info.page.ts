@@ -70,7 +70,8 @@ export class ItemInfoPage implements OnInit {
     }
 
     var fs  = await this.file.resolveDirectoryUrl(storageLocation) 
-    var dirEntry = await this.file.getDirectory(fs, "/ums/posters", {create: true, exclusive: false})
+    var umsDir = await this.file.getDirectory(fs, "/ums", {create: true, exclusive: false})
+    var dirEntry = await this.file.getDirectory(umsDir, "/posters", {create: true, exclusive: false})
     console.log('file system open: ', dirEntry);
     alert(dirEntry.fullPath)
     this.file.writeFile(dirEntry.nativeURL, this.passedId + '.png', this.posterBlob,  {replace: true}) 

@@ -80,7 +80,7 @@ export class FavoritesListPage implements OnInit {
   
   share(){
     let csv:any = this.saveAsCsv()
-    this.socialSharing.share(null,null,csv,null);
+    this.socialSharing.share(null,null,null,csv);
   }
   
   async export() {
@@ -98,7 +98,8 @@ export class FavoritesListPage implements OnInit {
     }
 
     var fs  = await this.file.resolveDirectoryUrl(storageLocation) 
-    var dirEntry = await this.file.getDirectory(fs, "/ums/export", {create: true, exclusive: false})
+    var umsDir = await this.file.getDirectory(fs, "/ums", {create: true, exclusive: false})
+    var dirEntry = await this.file.getDirectory(fs, "/export", {create: true, exclusive: false})
     this.file.writeFile(dirEntry.nativeURL, 'favoris.csv', csv,  {replace: true}) 
   }
 
