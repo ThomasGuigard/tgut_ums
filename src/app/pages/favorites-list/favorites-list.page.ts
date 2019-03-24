@@ -73,14 +73,15 @@ export class FavoritesListPage implements OnInit {
         str += line + '\r\n';
     }
     console.log(str)
-    //var data = new Blob("", {type: 'text/csv'});
+    
     return str
   }
 
   
-  share(){
-    let csv:any = this.saveAsCsv()
-    this.socialSharing.share(null,null,null,csv);
+  async share(){
+    let csv = this.saveAsCsv();
+    await this.file.writeFile(this.file.cacheDirectory, "favoris.csv", csv,  {replace: true});  
+    this.socialSharing.share(null, null, this.file.cacheDirectory + "favoris.csv", null);
   }
   
   async export() {
