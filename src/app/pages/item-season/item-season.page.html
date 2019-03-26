@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar color=dark>
+    <ion-back-button></ion-back-button>
+    <ion-title>Liste des épisodes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color=dark padding>
+    <ion-list color=dark>
+        <ion-item *ngFor="let episode of season.Episodes" color=dark>
+          <ion-label (click)="episodeTapped($event, episode)" >{{episode.Title}} </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
