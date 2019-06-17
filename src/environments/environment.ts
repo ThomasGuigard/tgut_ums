@@ -6,12 +6,12 @@ export const environment = {
   production: false,
   // Initialize Firebase
   firebase: {
-    apiKey: "AIzaSyCfPjTUaOw5kStwx4b-aM15knC27ElXiAc",
+    apiKey: "yoursecretkey",
     authDomain: "ionic-tgut.firebaseapp.com",
     databaseURL: "https://ionic-tgut.firebaseio.com",
     projectId: "ionic-tgut",
     storageBucket: "ionic-tgut.appspot.com",
-    messagingSenderId: "1088382791928"
+    messagingSenderId: "yourmessagesendeid"
   },
 
 };
